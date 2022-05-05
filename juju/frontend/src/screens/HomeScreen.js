@@ -1,7 +1,10 @@
-import { useEffect, useState,    useReducer } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useReducer } from "react";
 import axios from "axios";
 import logger from "use-reducer-logger"
+import Col from "react-bootstrap/Col"
+import Row from "react-bootstrap/Row"
+import Product from "../components/Product";
+import { Helmet} from "react-helmet-async"
 // import data from "../data";
 
 const reducer =(state, action) => {
@@ -42,6 +45,9 @@ function HomeScreen() {
 
   return (
     <div>
+      <Helmet>
+        <title>Waikawa</title>
+      </Helmet>
       <h1>Featured Products</h1>
       <div className="products">
               {
@@ -49,28 +55,19 @@ function HomeScreen() {
                   <div>Loading..</div>
                 ): error ? (<div>{error}</div>
                 ):  (
-                products.map((product) => (
-                  <div key={product.id} className="product">
-                        <Link to={`/product/${product.id}`}>
-                          <img src={product.image} alt={product.name} />
-                        </Link>
-                    <div className="product-info">
-                        <Link to={`/product/${product.id}`}>
-                          <p>{product.name}</p>
-                        </Link>
-                        <p>
-                            <strong>${product.price}</strong>
-                        </p>
-                        <button>Add to cart</button>
-                    </div>
-                  </div>
-                ))
-              
+                 <Row> 
+                {products.map((product) => (
+                  <Col key={product.id}  sm={6} md={4} lg={3}>
+                        <Product product={product}/>
+                  </Col>
+                ))}   
+              </Row>
             
             
         )}
+      
       </div>
     </div>
-  )};
+)};
 
 export default HomeScreen;
